@@ -74,7 +74,7 @@ func Initiate() {
 	signal.Notify(quit, syscall.SIGTERM)
 	// run the server
 	go func() {
-		logger.Info("starting server")
+		logger.Info("starting server", zap.Any("on", srv.Addr))
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			logger.Fatal("failed to start server", zap.Error(err))
 		}
