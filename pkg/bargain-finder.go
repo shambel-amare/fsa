@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"fsa/internal/dto"
+	"fsa/pkg/util"
 	"net/http"
 	"time"
 )
@@ -62,7 +63,7 @@ func (bs *bargainSearch) SearchFlight(
 			TravelerInfoSummary:          req.TravelerSummary,
 		},
 	}
-	err := MakeRequest(
+	err := util.MakeRequest(
 		ctx,
 		http.MethodPost,
 		bs.searchAPICallPath,
