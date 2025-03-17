@@ -1,0 +1,12 @@
+server:
+  host: "0.0.0.0"
+  port: 8080
+  read_timeout: 30s
+  read_header_timeout: 30s
+  write_timeout: 30s
+  timeout: 5m
+
+bargain:
+  baseUrl: "https://api.cert.platform.sabre.com"
+  searchPath: "vs/offers/shop"
+  authToken: "T1RLAQJnccxmzz/qdigpjzQMhqkZEmBvGKaY6rbxhKla7qE1WxBbQALZmUx8K+FMo2DX+CO6AADgv4x+VgnZbMP7ZkfDE120lK3xA2jy8ZBe/hL17XtZe4WiF1FnM0rNuyPFvdugPOFWfTT97jzdM2gRrCHnaZLkYnRkRFxAZkAn/tbVU45w9G00wS9fjlwdQMM7L9BH1vZd+ORsR//K0r4kyuV5fc9fpHZyP7iT4/Sn3mUsAcNNw6wjORd72H911WbCVT2OFiNpKJLOq4iQIeXBO2Hig6m2G1b023giGsylII2EMNENSYtlpy8wAJi5L+fyhBDmXzG1isfYDPRmJTOXNY4E6wOUUAQTbwVIJliK8mj0kU1SzVg*"
