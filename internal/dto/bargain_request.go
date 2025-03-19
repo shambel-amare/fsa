@@ -1,5 +1,7 @@
 package dto
 
+import validation "github.com/go-ozzo/ozzo-validation/v4"
+
 type BargainFinderMaxRequest struct {
 	OTAAirLowFareSearchRQ OTAAirLowFareSearchRQ `json:"OTA_AirLowFareSearchRQ"`
 }
@@ -15,8 +17,27 @@ type OTAAirLowFareSearchRQ struct {
 	TPAExtensions                TPAExtensions                  `json:"TPA_Extensions"`
 }
 
+func (ot OTAAirLowFareSearchRQ) Validate() error {
+	return validation.ValidateStruct(&ot,
+		validation.Field(&ot.POS, validation.By(func(value any) error {
+			return value.(POS).Validate()
+		})),
+	)
+}
+
 type POS struct {
 	Source []Source `json:"Source"`
+}
+
+// according to Bargain Finder max api, POS is required, and in each source, the requesterID is required
+func (p POS) Validate() error {
+	return validation.ValidateStruct(&p,
+		validation.Field(&p.Source, validation.Required, validation.Each(
+			validation.By(func(value any) error {
+				return value.(Source).Validate()
+			}),
+		)),
+	)
 }
 
 type Source struct {
@@ -25,10 +46,30 @@ type Source struct {
 	RequestorID    RequestorID `json:"RequestorID"`
 }
 
+func (s Source) Validate() error {
+	return validation.ValidateStruct(&s,
+		validation.Field(
+			&s.RequestorID,
+			validation.Required,
+			validation.By(func(value any) error {
+				return value.(RequestorID).Validate()
+			}),
+		),
+	)
+}
+
 type RequestorID struct {
 	Type        string      `json:"Type"`
 	ID          string      `json:"ID"`
 	CompanyName CompanyName `json:"CompanyName"`
+}
+
+// According to Bargain Finder max, RequesterID.ID and Type are required
+func (r RequestorID) Validate() error {
+	return validation.ValidateStruct(&r,
+		validation.Field(&r.ID, validation.Required),
+		validation.Field(&r.Type, validation.Required),
+	)
 }
 
 type CompanyName struct {
@@ -99,6 +140,12 @@ type VendorPref struct {
 type TravelerInfoSummary struct {
 	AirTravelerAvail  []AirTravelerAvail `json:"AirTravelerAvail"`
 	TravelPreferences TravelPreferences  `json:"TravelPreferences"`
+}
+
+func (t TravelerInfoSummary) Validate() error {
+	return validation.ValidateStruct(&t,
+		validation.Field(&t.AirTravelerAvail, validation.Required),
+	)
 }
 
 type AirTravelerAvail struct {
