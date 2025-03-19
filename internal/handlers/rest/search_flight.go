@@ -45,6 +45,12 @@ func (h *SearchHandler) SearchFlight(ctx *gin.Context) {
 		_ = ctx.Error(err)
 		return
 	}
+	// TODO: validate the request
+	err = req.Validate()
+	if err != nil {
+		_ = ctx.Error(err)
+		return
+	}
 
 	response, err := h.service.SearchFlight(c, req)
 	if err != nil {
